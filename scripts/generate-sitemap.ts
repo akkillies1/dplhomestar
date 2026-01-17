@@ -2,33 +2,27 @@ import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
-// Load environment variables from .env file
 import dotenv from 'dotenv';
-dotenv.config();
 
+// Load environment variables
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// Load environment variables from .env file
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-    console.error('Missing Supabase environment variables. Required: VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY');
+    console.error('Missing Supabase environment variables.');
     process.exit(1);
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
-
-const BASE_URL = 'https://allthingdecode.com'; // Replace with actual domain
+const BASE_URL = 'https://www.dplhomestar.com';
 
 const staticRoutes = [
-    '',
+    '/',
     '/blog',
-    '/admin/login'
 ];
 
 async function generateSitemap() {
@@ -41,7 +35,7 @@ async function generateSitemap() {
             .select('slug, updated_at')
             .eq('is_published', true);
 
-        if (error) throw error;
+        if (error) console.error('Error fetching posts:', error);
 
         let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
@@ -50,9 +44,9 @@ async function generateSitemap() {
         staticRoutes.forEach(route => {
             sitemap += `
     <url>
-        <loc>${BASE_URL}${route}</loc>
+        <loc>${BASE_URL}${route === '/' ? '' : route}</loc>
         <changefreq>weekly</changefreq>
-        <priority>${route === '' ? '1.0' : '0.8'}</priority>
+        <priority>${route === '/' ? '1.0' : '0.8'}</priority>
     </url>`;
         });
 
@@ -71,9 +65,15 @@ async function generateSitemap() {
 </urlset>`;
 
         const publicDir = path.resolve(__dirname, '../public');
-        fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemap);
+        const distDir = path.resolve(__dirname, '../dist');
 
-        console.log('Sitemap generated successfully at public/sitemap.xml');
+        // Write to both public (for next build) and dist (for current deploy)
+        fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemap);
+        if (fs.existsSync(distDir)) {
+            fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemap);
+        }
+
+        console.log('Sitemap generated successfully!');
     } catch (error) {
         console.error('Error generating sitemap:', error);
     }
