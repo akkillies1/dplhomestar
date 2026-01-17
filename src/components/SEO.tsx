@@ -12,7 +12,7 @@ export const SEO = ({
     title,
     description = "dplHomestar - Interior Design Studio in Kerala",
     image = "/og-image.png",
-    url = window.location.href,
+    url = typeof window !== 'undefined' ? window.location.href : "",
     type = "website"
 }: SEOProps) => {
     const siteTitle = "dplHomestar";

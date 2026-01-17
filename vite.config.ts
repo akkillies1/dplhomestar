@@ -22,5 +22,8 @@ export default defineConfig(({ mode }) => ({
   },
   define: {
     'process.env': {}
+  },
+  ssr: {
+    noExternal: ['react-helmet-async', 'react-router-dom', 'lucide-react']
   }
 }));

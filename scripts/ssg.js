@@ -5,6 +5,17 @@ import { createServer } from 'vite';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Mock browser globals for SSG
+global.localStorage = {
+    getItem: () => null,
+    setItem: () => { },
+    removeItem: () => { },
+    clear: () => { },
+    length: 0,
+    key: () => null
+};
+global.sessionStorage = global.localStorage;
+
 async function build() {
     const root = path.resolve(__dirname, '..');
     const dist = path.resolve(root, 'dist');
