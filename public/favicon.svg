@@ -1,0 +1,30 @@
+<svg width="100" height="100" viewBox="-50 -50 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Glow filter for the star -->
+        <filter id="goldGlowIcon">
+            <feGaussianBlur stdDeviation="1" result="coloredBlur" />
+            <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+
+        <!-- Gradient for the Star (Gold) -->
+        <linearGradient id="starGradientIcon" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#FCD34D;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#B45309;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+
+    <!-- CLASSIC 5-POINT STAR SHAPE - Scaled to 300% to fill the tab area -->
+    <!-- Points calculated to edge of -50 to 50 canvas -->
+    <polygon points="0,-50 15,-15 50,-15 22,8 32,45 0,22 -32,45 -22,8 -50,-15 -15,-15" fill="url(#starGradientIcon)" stroke="#F59E0B" stroke-width="2">
+        <!-- Subtle Pulse -->
+        <animateTransform attributeName="transform" type="scale" values="1;1.05;1" dur="4s" repeatCount="indefinite" />
+    </polygon>
+
+    <!-- Inner bright center for shine -->
+    <circle r="6" fill="#FFFFFF" opacity="0.9" filter="url(#goldGlowIcon)">
+        <animate attributeName="opacity" values="0.7; 1; 0.7" dur="2s" repeatCount="indefinite" />
+    </circle>
+</svg>
