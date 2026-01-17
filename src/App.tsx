@@ -19,6 +19,8 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import { HelmetProvider } from 'react-helmet-async';
 
+import { AppRoutes } from "./AppRoutes";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -33,27 +35,7 @@ const App = () => (
             v7_relativeSplatPath: true,
           }}
         >
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route path="/admin/leads" element={<LeadsManager />} />
-              <Route path="/admin/blog/:id" element={<BlogPostForm />} />
-              <Route path="/admin/gallery" element={<GalleryManager />} />
-              <Route path="/admin/gallery/new" element={<GalleryImageForm />} />
-              <Route path="/admin/gallery/:id" element={<GalleryImageForm />} />
-              <Route path="/admin/testimonials" element={<TestimonialsManager />} />
-              <Route path="/admin/testimonials/new" element={<TestimonialForm />} />
-              <Route path="/admin/testimonials/:id" element={<TestimonialForm />} />
-              <Route path="/admin/blog" element={<BlogManager />} />
-              <Route path="/admin/blog/new" element={<BlogPostForm />} />
-            </Route>
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AppRoutes />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
