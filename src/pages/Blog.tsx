@@ -71,7 +71,7 @@ const Blog = () => {
         <div className="min-h-screen bg-background">
             <SEO
                 title={currentTag ? `${currentTag} Articles` : "Design Journal"}
-                description="Insights, trends, and stories from the world of interior design by dplHomestar."
+                description="Insights, trends, and stories from the world of interior design by DPL Homestar."
                 url={window.location.href}
             />
             {/* Header */}
@@ -219,7 +219,7 @@ const Blog = () => {
             {/* Footer */}
             <footer className="py-12 border-t border-border bg-background">
                 <div className="container-custom text-center text-foreground/30 font-light text-sm">
-                    <p>&copy; {new Date().getFullYear()} dplHomestar. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} DPL Homestar. All rights reserved.</p>
                 </div>
             </footer>
         </div>

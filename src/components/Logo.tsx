@@ -41,23 +41,22 @@ export const Logo = ({ className = "w-40 h-auto", isScrolled = false }: LogoProp
                 </linearGradient>
             </defs>
 
-            {/* The 'd' */}
-            <text x="35" y="60" fontFamily="'Outfit', sans-serif" fontSize="40" fontWeight="700" fill="url(#textGradient)">d</text>
+            {/* The Text "DPL Home" */}
+            <text
+                x="25"
+                y="62"
+                fontFamily="'Outfit', sans-serif"
+                fontSize="42"
+                fill="url(#textGradient)"
+                letterSpacing="-0.5"
+            >
+                <tspan fontWeight="700">DPL</tspan>
+                <tspan dx="12" fontWeight="800">Home</tspan>
+            </text>
 
-            {/* Text "plHome" */}
-            <g transform="translate(60, 60)">
-                <text x="0" y="0" fontFamily="'Outfit', sans-serif" fontSize="40" fontWeight="700" fill="url(#textGradient)" letterSpacing="-1.5">
-                    <tspan>pl</tspan>
-                    <tspan fontWeight="800">Home</tspan>
-                </text>
-            </g>
-
-            {/* Pulse Line Path (Blue) */}
-            <path id="pulsePath" d="M 40 75 L 160 75 L 165 55 L 170 95 L 175 75 L 205 75" stroke="#3090E0" strokeWidth="1.5" fill="none" opacity="0.3" />
-
-            {/* Animated Star & Effects (The '*') at the end */}
-            {/* Scaled up by 1.4x and moved slightly right to accommodate size */}
-            <g transform="translate(245, 52) scale(1.4)">
+            {/* Animated Star & Effects (The "star" in Homestar) */}
+            {/* Moved slightly right to accommodate the new text width */}
+            <g transform="translate(285, 54) scale(1.4)">
 
                 {/* Pulsating Radiations (Rings emanating outwards) */}
                 <circle r="12" stroke="#F59E0B" strokeWidth="1" fill="none" opacity="0">

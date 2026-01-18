@@ -281,12 +281,12 @@ const Index = () => {
       case 'about':
         return {
           title: "Our Story | Luxury Interior Design Pioneers",
-          description: "Discover the philosophy behind dplHomestar. Delivering budget-friendly luxury and turnkey interior solutions across Kerala and major South Indian cities.",
+          description: "Discover the philosophy behind DPL Homestar. Delivering budget-friendly luxury and turnkey interior solutions across Kerala and major South Indian cities.",
         };
       case 'services':
         return {
           title: "Turnkey Interior Services in Kerala & Bangalore",
-          description: "Full-service interior design & execution. From bespoke residences to commercial spaces in Cochin, Coimbatore & more. Quality turnkey solutions at dplHomestar.",
+          description: "Full-service interior design & execution. From bespoke residences to commercial spaces in Cochin, Coimbatore & more. Quality turnkey solutions at DPL Homestar.",
         };
       case 'work':
         return {
@@ -295,13 +295,13 @@ const Index = () => {
         };
       case 'contact':
         return {
-          title: "Contact dplHomestar | Interior Design Experts South India",
-          description: "Start your project with dplHomestar. Premium turnkey interiors in Kerala, Cochin, Bangalore & Coimbatore. Inquire today for budget-friendly luxury at your door.",
+          title: "Contact DPL Homestar | Interior Design Experts South India",
+          description: "Start your project with DPL Homestar. Premium turnkey interiors in Kerala, Cochin, Bangalore & Coimbatore. Inquire today for budget-friendly luxury at your door.",
         };
       default:
         return {
           title: "Premium Interior Design & Turnkey Execution",
-          description: "Transform your space with dplHomestar. Luxury turnkey interiors in Kerala, Cochin, Bangalore & Coimbatore. Budget-friendly elegance & precision craft.",
+          description: "Transform your space with DPL Homestar. Luxury turnkey interiors in Kerala, Cochin, Bangalore & Coimbatore. Budget-friendly elegance & precision craft.",
         };
     }
   };
@@ -439,7 +439,7 @@ const Index = () => {
 
             <div className="space-y-12 max-w-4xl mx-auto">
               <p className="text-2xl md:text-3xl font-serif leading-relaxed text-foreground/90 text-balance italic">
-                "At <span className="text-accent font-bold not-italic font-outfit uppercase tracking-widest text-lg">dplHomestar</span>, we believe luxury doesn't mean excess. Every space has the potential to inspire — and we design to elevate your environment while keeping it practical and within budget."
+                "At <span className="text-accent font-bold not-italic font-outfit uppercase tracking-widest text-lg">DPL Homestar</span>, we believe luxury doesn't mean excess. Every space has the potential to inspire — and we design to elevate your environment while keeping it practical and within budget."
               </p>
 
               <div className="h-px w-20 bg-accent/30 mx-auto py-0 my-0"></div>
@@ -503,132 +503,137 @@ const Index = () => {
 
       {/* Process Flow Section */}
       {/* Process Section */}
-      <section id="process" className="py-[100px] md:py-[140px] bg-background reveal" >
+      <section id="process" className="py-[100px] md:py-[180px] bg-background relative reveal overflow-hidden" >
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-accent/5 rounded-[100%] blur-[120px] -z-10 opacity-30 pointer-events-none" />
+
         <div className="container-custom">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl md:text-7xl font-bold mb-6 tracking-tighter text-foreground">DCode Workflow</h2>
-            <p className="text-xl text-foreground/50 max-w-2xl mx-auto font-light">
-              Our systematic approach to transforming your vision into reality
+          <div className="text-center mb-24">
+            <h2 className="text-5xl md:text-8xl font-serif font-bold mb-6 tracking-tighter text-foreground">
+              DCODE <span className="text-accent italic font-light">the</span> DPL way
+            </h2>
+            <div className="h-1 w-24 bg-accent/20 mx-auto rounded-full mb-8" />
+            <p className="text-xl md:text-2xl text-foreground/50 max-w-2xl mx-auto font-light italic">
+              A bespoke systematic approach to transforming your vision into an architectural reality
             </p>
           </div>
 
           <div className="max-w-5xl mx-auto">
             {/* Step 1: D → Discovery */}
-            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
+            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-16 items-center animate-fade-in group">
               <div className="md:text-right pl-4 md:pl-0">
                 <div className="inline-block md:block">
-                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-3xl font-light text-accent">D</span>
+                  <div className="w-20 h-20 rounded-2xl bg-accent shadow-[0_0_30px_rgba(252,211,77,0.2)] flex items-center justify-center mb-6 md:ml-auto transition-transform duration-500 group-hover:rotate-6">
+                    <span className="text-4xl font-serif font-bold text-accent-foreground">D</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-foreground mb-2 tracking-tight">Discovery</h3>
-                  <p className="text-accent font-medium text-xs uppercase tracking-widest">Understand & Align</p>
+                  <h3 className="text-3xl font-serif font-bold text-foreground mb-2 tracking-tight">Discovery</h3>
+                  <p className="text-accent font-semibold text-xs uppercase tracking-[0.3em] opacity-70">Understand & Align</p>
                 </div>
               </div>
 
               <div className="hidden md:flex flex-col items-center">
-                <div className="w-4 h-4 rounded-full bg-accent"></div>
-                <div className="w-0.5 h-32 bg-accent/30"></div>
+                <div className="w-5 h-5 rounded-full border-2 border-accent bg-background z-10"></div>
+                <div className="w-px h-40 bg-gradient-to-b from-accent to-accent/10"></div>
               </div>
 
-              <Card className="p-10 bg-card border-border shadow-2xl transition-all duration-300 hover:border-accent/40 group">
-                <p className="text-foreground/70 leading-relaxed text-lg font-light">
-                  We begin by DCoding your vision—understanding your needs, goals, and site potential. This phase is about deep alignment, where we define expectations, timelines, and budgets to establish a shared direction before design begins.
+              <Card className="p-10 bg-white/[0.02] backdrop-blur-md border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-accent/40 hover:bg-white/[0.04] group-hover:-translate-y-1">
+                <p className="text-foreground/80 leading-relaxed text-xl font-serif italic font-light">
+                  "We begin by <span className="text-accent font-bold not-italic font-outfit uppercase tracking-widest text-base">DCoding</span> your vision—understanding your needs, goals, and site potential. This phase is about deep alignment, defining expectations to establish a shared direction."
                 </p>
               </Card>
             </div>
 
 
-            {/* Step 3: C → Craft */}
-            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in text-foreground">
+            {/* Step 2: C → Craft */}
+            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-16 items-center animate-fade-in group">
               <div className="md:text-right pl-4 md:pl-0">
                 <div className="inline-block md:block">
-                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-3xl font-light text-accent">C</span>
+                  <div className="w-20 h-20 rounded-2xl bg-accent shadow-[0_0_30px_rgba(252,211,77,0.2)] flex items-center justify-center mb-6 md:ml-auto transition-transform duration-500 group-hover:rotate-6">
+                    <span className="text-4xl font-serif font-bold text-accent-foreground">C</span>
                   </div>
-                  <h3 className="text-2xl font-bold mb-2 tracking-tight">Craft</h3>
-                  <p className="text-accent font-medium text-xs uppercase tracking-widest">Design & conceptualization</p>
+                  <h3 className="text-3xl font-serif font-bold text-foreground mb-2 tracking-tight">Craft</h3>
+                  <p className="text-accent font-semibold text-xs uppercase tracking-[0.3em] opacity-70">Design & Conceptualization</p>
                 </div>
               </div>
 
               <div className="hidden md:flex flex-col items-center">
-                <div className="w-4 h-4 rounded-full bg-accent"></div>
-                <div className="w-0.5 h-32 bg-accent/30"></div>
+                <div className="w-5 h-5 rounded-full border-2 border-accent bg-background z-10"></div>
+                <div className="w-px h-40 bg-gradient-to-b from-accent to-accent/10"></div>
               </div>
 
-              <Card className="p-10 bg-card border-border shadow-2xl transition-all duration-300 hover:border-accent/40 group">
-                <p className="text-foreground/70 leading-relaxed text-lg font-light">
-                  We create thoughtful, tailored designs — layouts, materials, color schemes, and project plans — refined with your feedback to form a complete, client-approved design.
+              <Card className="p-10 bg-white/[0.02] backdrop-blur-md border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-accent/40 hover:bg-white/[0.04] group-hover:-translate-y-1">
+                <p className="text-foreground/80 leading-relaxed text-xl font-serif italic font-light">
+                  "We create thoughtful, tailored designs — layouts, materials, and color schemes — refined with your feedback to form a complete, client-approved design."
                 </p>
               </Card>
             </div>
 
-            {/* Step 4: O → Optimize */}
-            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in text-foreground">
+            {/* Step 3: O → Optimize */}
+            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-16 items-center animate-fade-in group">
               <div className="md:text-right pl-4 md:pl-0">
                 <div className="inline-block md:block">
-                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-3xl font-light text-accent">O</span>
+                  <div className="w-20 h-20 rounded-2xl bg-accent shadow-[0_0_30px_rgba(252,211,77,0.2)] flex items-center justify-center mb-6 md:ml-auto transition-transform duration-500 group-hover:rotate-6">
+                    <span className="text-4xl font-serif font-bold text-accent-foreground">O</span>
                   </div>
-                  <h3 className="text-2xl font-bold mb-2 tracking-tight">Optimize</h3>
-                  <p className="text-accent font-medium text-xs uppercase tracking-widest">Finalize & perfect</p>
+                  <h3 className="text-3xl font-serif font-bold text-foreground mb-2 tracking-tight">Optimize</h3>
+                  <p className="text-accent font-semibold text-xs uppercase tracking-[0.3em] opacity-70">Finalize & Perfect</p>
                 </div>
               </div>
 
               <div className="hidden md:flex flex-col items-center">
-                <div className="w-4 h-4 rounded-full bg-accent"></div>
-                <div className="w-0.5 h-32 bg-accent/30"></div>
+                <div className="w-5 h-5 rounded-full border-2 border-accent bg-background z-10"></div>
+                <div className="w-px h-40 bg-gradient-to-b from-accent to-accent/10"></div>
               </div>
 
-              <Card className="p-10 bg-card border-border shadow-2xl transition-all duration-300 hover:border-accent/40 group">
-                <p className="text-foreground/70 leading-relaxed text-lg font-light">
-                  We fine-tune the design with you and end-users, adjusting for functionality, aesthetics, and efficiency to ensure the design is perfected before production.
+              <Card className="p-10 bg-white/[0.02] backdrop-blur-md border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-accent/40 hover:bg-white/[0.04] group-hover:-translate-y-1">
+                <p className="text-foreground/80 leading-relaxed text-xl font-serif italic font-light">
+                  "We fine-tune the aesthetics and functionality with precision, ensuring every detail is perfected before moving to the production floor."
                 </p>
               </Card>
             </div>
 
-            {/* Step 5: D → Delivery */}
-            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in text-foreground">
+            {/* Step 4: D → Delivery */}
+            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-16 items-center animate-fade-in group">
               <div className="md:text-right pl-4 md:pl-0">
                 <div className="inline-block md:block">
-                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-3xl font-light text-accent">D</span>
+                  <div className="w-20 h-20 rounded-2xl bg-accent shadow-[0_0_30px_rgba(252,211,77,0.2)] flex items-center justify-center mb-6 md:ml-auto transition-transform duration-500 group-hover:rotate-6">
+                    <span className="text-4xl font-serif font-bold text-accent-foreground">D</span>
                   </div>
-                  <h3 className="text-2xl font-bold mb-2 tracking-tight">Delivery</h3>
-                  <p className="text-accent font-medium text-xs uppercase tracking-widest">Production & logistics</p>
+                  <h3 className="text-3xl font-serif font-bold text-foreground mb-2 tracking-tight">Delivery</h3>
+                  <p className="text-accent font-semibold text-xs uppercase tracking-[0.3em] opacity-70">Production & Logistics</p>
                 </div>
               </div>
 
               <div className="hidden md:flex flex-col items-center">
-                <div className="w-4 h-4 rounded-full bg-accent"></div>
-                <div className="w-0.5 h-32 bg-accent/30"></div>
+                <div className="w-5 h-5 rounded-full border-2 border-accent bg-background z-10"></div>
+                <div className="w-px h-40 bg-gradient-to-b from-accent to-accent/10"></div>
               </div>
 
-              <Card className="p-10 bg-card border-border shadow-2xl transition-all duration-300 hover:border-accent/40 group">
-                <p className="text-foreground/70 leading-relaxed text-lg font-light">
-                  From factory to site, we manage production, quality checks, and logistics, ensuring every material, furniture, and fixture arrives ready for seamless installation.
+              <Card className="p-10 bg-white/[0.02] backdrop-blur-md border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-accent/40 hover:bg-white/[0.04] group-hover:-translate-y-1">
+                <p className="text-foreground/80 leading-relaxed text-xl font-serif italic font-light">
+                  "From factory to site, we manage quality checks and logistics, ensuring every bespoke piece arrives ready for seamless transformation."
                 </p>
               </Card>
             </div>
 
-            {/* Step 6: E → Execution */}
-            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 items-center animate-fade-in text-foreground">
+            {/* Step 5: E → Execution */}
+            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 items-center animate-fade-in group">
               <div className="md:text-right pl-4 md:pl-0">
                 <div className="inline-block md:block">
-                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-3xl font-light text-accent">E</span>
+                  <div className="w-20 h-20 rounded-2xl bg-accent shadow-[0_0_30px_rgba(252,211,77,0.2)] flex items-center justify-center mb-6 md:ml-auto transition-transform duration-500 group-hover:rotate-6">
+                    <span className="text-4xl font-serif font-bold text-accent-foreground">E</span>
                   </div>
-                  <h3 className="text-2xl font-bold mb-2 tracking-tight">Execution</h3>
-                  <p className="text-accent font-medium text-xs uppercase tracking-widest">Installation & handover</p>
+                  <h3 className="text-3xl font-serif font-bold text-foreground mb-2 tracking-tight">Execution</h3>
+                  <p className="text-accent font-semibold text-xs uppercase tracking-[0.3em] opacity-70">Installation & Handover</p>
                 </div>
               </div>
 
               <div className="hidden md:flex flex-col items-center">
-                <div className="w-4 h-4 rounded-full bg-accent"></div>
+                <div className="w-5 h-5 rounded-full border-2 border-accent bg-background z-10"></div>
               </div>
 
-              <Card className="p-10 bg-card border-border shadow-2xl transition-all duration-300 hover:border-accent/40 group">
-                <p className="text-foreground/70 leading-relaxed text-lg font-light">
-                  We bring the project to life on-site — installing, adjusting, and perfecting every detail, with thorough walkthroughs to deliver a fully functional space ready for use.
+              <Card className="p-10 bg-white/[0.02] backdrop-blur-md border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-accent/40 hover:bg-white/[0.04] group-hover:-translate-y-1">
+                <p className="text-foreground/80 leading-relaxed text-xl font-serif italic font-light">
+                  "We bring the project to life on-site—installing and perfecting every detail to deliver a fully functional, signature space ready for you."
                 </p>
               </Card>
             </div>

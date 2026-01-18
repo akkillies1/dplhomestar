@@ -10,12 +10,12 @@ interface SEOProps {
 
 export const SEO = ({
     title,
-    description = "dplHomestar - Interior Design Studio in Kerala",
+    description = "DPL Homestar - Interior Design Studio in Kerala",
     image = "https://dplhomestar.com/og-image.png",
     url = typeof window !== 'undefined' ? window.location.href : "",
     type = "website"
 }: SEOProps) => {
-    const siteTitle = "dplHomestar";
+    const siteTitle = "DPL Homestar";
     const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 
     return (

@@ -242,7 +242,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                                                     {!isImageLoading && (
                                                         <div className="absolute bottom-4 right-4 pointer-events-none select-none opacity-40 mix-blend-difference hidden md:block">
                                                             <p className="text-white font-serif text-[10px] md:text-xs tracking-[0.2em] font-light italic">
-                                                                dplhomestar
+                                                                DPL Homestar
                                                             </p>
                                                         </div>
                                                     )}
@@ -358,7 +358,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                         {/* 3. Footer: Property Ownership Declaration */}
                         <div className="p-3 md:p-4 bg-black/60 border-t border-white/5 flex items-center justify-center flex-shrink-0">
                             <p className="text-[8px] md:text-[10px] text-white/20 tracking-wider uppercase font-medium text-center px-4">
-                                © {new Date().getFullYear()} dplHomestar. All designs and photographic property are protected trademarks of <span className="text-white/40">DCODE Private Limited</span>.
+                                © {new Date().getFullYear()} DPL Homestar. All designs and photographic property are protected trademarks of <span className="text-white/40">DCODE Private Limited</span>.
                             </p>
                         </div>
                     </div>
