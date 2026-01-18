@@ -21,6 +21,7 @@ export const Gallery = () => {
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [modalMode, setModalMode] = useState<'grid' | 'detail'>('detail');
     const [currentIndices, setCurrentIndices] = useState<number[]>([0, 1, 2, 3]);
 
     useEffect(() => {
@@ -98,6 +99,12 @@ export const Gallery = () => {
 
     const handleOpenModal = (index: number) => {
         setSelectedIndex(index);
+        setModalMode('detail');
+        setIsModalOpen(true);
+    };
+
+    const handleOpenMoodBoard = () => {
+        setModalMode('grid');
         setIsModalOpen(true);
     };
 
@@ -144,7 +151,7 @@ export const Gallery = () => {
                         <Button
                             size="lg"
                             variant="outline"
-                            onClick={() => setIsModalOpen(true)}
+                            onClick={handleOpenMoodBoard}
                             className="min-w-[200px] md:min-w-[280px] h-12 md:h-14 border-accent text-accent hover:bg-accent hover:text-accent-foreground font-bold rounded-full transition-all duration-500 uppercase tracking-widest text-[10px] md:text-xs"
                         >
                             The Design Mood Board
@@ -157,6 +164,7 @@ export const Gallery = () => {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 initialIndex={selectedIndex}
+                initialViewMode={modalMode}
             />
         </>
     );
