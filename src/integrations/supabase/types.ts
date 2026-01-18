@@ -162,6 +162,8 @@ export interface Database {
           notes: string | null
           last_contacted_at: string | null
           next_follow_up_date: string | null
+          country_code: string | null
+          country_iso2: string | null
         }
         Insert: {
           id?: string
@@ -177,6 +179,8 @@ export interface Database {
           notes?: string | null
           last_contacted_at?: string | null
           next_follow_up_date?: string | null
+          country_code?: string | null
+          country_iso2?: string | null
         }
         Update: {
           id?: string
@@ -192,6 +196,8 @@ export interface Database {
           notes?: string | null
           last_contacted_at?: string | null
           next_follow_up_date?: string | null
+          country_code?: string | null
+          country_iso2?: string | null
         }
       }
     }
@@ -199,7 +205,18 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      submit_lead: {
+        Args: {
+          p_name: string
+          p_email: string
+          p_phone: string
+          p_location: string
+          p_message: string
+          p_country_code?: string
+          p_country_iso2?: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

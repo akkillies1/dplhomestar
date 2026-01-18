@@ -1,6 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Mail, Phone, MapPin, Layers, Ruler, PenTool, ChevronDown, Lightbulb, Hammer, Palette, Scissors } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -19,6 +26,22 @@ import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
 import heroInterior from "@/assets/hero-interior.jpg";
 
+const COUNTRY_LIST = [
+  { name: "India", iso2: "IN", dial_code: "+91" },
+  { name: "United Arab Emirates", iso2: "AE", dial_code: "+971" },
+  { name: "United States", iso2: "US", dial_code: "+1" },
+  { name: "United Kingdom", iso2: "GB", dial_code: "+44" },
+  { name: "Qatar", iso2: "QA", dial_code: "+974" },
+  { name: "Oman", iso2: "OM", dial_code: "+968" },
+  { name: "Saudi Arabia", iso2: "SA", dial_code: "+966" },
+  { name: "Kuwait", iso2: "KW", dial_code: "+965" },
+  { name: "Singapore", iso2: "SG", dial_code: "+65" },
+  { name: "Australia", iso2: "AU", dial_code: "+61" },
+  { name: "Canada", iso2: "CA", dial_code: "+1" },
+  { name: "Germany", iso2: "DE", dial_code: "+49" },
+  { name: "Other", iso2: "UN", dial_code: "Other" },
+];
+
 const Index = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
@@ -27,6 +50,8 @@ const Index = () => {
     phone: "",
     location: "",
     message: "",
+    countryCode: "+91",
+    countryIso2: "IN",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,6 +65,15 @@ const Index = () => {
     const randomImage = images[Math.floor(Math.random() * images.length)];
     setHeroImage(randomImage);
   }, []);
+
+  const getFlagEmoji = (iso2: string) => {
+    if (!iso2) return "";
+    const codePoints = iso2
+      .toUpperCase()
+      .split('')
+      .map(char => 127397 + char.charCodeAt(0));
+    return String.fromCodePoint(...codePoints);
+  };
 
   // Track scroll position for header shadow
   useEffect(() => {
@@ -141,31 +175,70 @@ const Index = () => {
       return;
     }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
+    // Email validation - Stricter RFC-like regex
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!emailRegex.test(formData.email.trim())) {
       toast({
         title: "✗ Invalid Email",
-        description: "Please enter a valid email address.",
+        description: "Please enter a valid email address (e.g., name@example.com).",
         variant: "destructive",
       });
       return;
+    }
+
+    // Phone validation
+    const isIndia = formData.countryIso2 === "IN";
+    // Remove ALL non-numeric characters for validation check
+    const numericPhone = formData.phone.replace(/\D/g, "");
+
+    if (isIndia) {
+      // Indian numbers must be exactly 10 digits and start with 6, 7, 8, or 9
+      const indiaRegex = /^[6789]\d{9}$/;
+      if (!indiaRegex.test(numericPhone)) {
+        toast({
+          title: "✗ Invalid Indian Number",
+          description: "Please enter a valid 10-digit mobile number starting with 6-9.",
+          variant: "destructive",
+        });
+        return;
+      }
+    } else if (formData.countryIso2 === "UN") {
+      // Global/Other - Just ensure it's not too short to be fake
+      if (numericPhone.length < 6) {
+        toast({
+          title: "✗ Phone Number Too Short",
+          description: "Please enter a valid international phone number.",
+          variant: "destructive",
+        });
+        return;
+      }
+    } else {
+      // Standard International validation (between 6-15 digits based on ITU-T E.164)
+      if (numericPhone.length < 6 || numericPhone.length > 15) {
+        toast({
+          title: "✗ Invalid Phone Number",
+          description: "International numbers should be between 6 and 15 digits.",
+          variant: "destructive",
+        });
+        return;
+      }
     }
 
     setIsSubmitting(true);
 
     try {
       // STEP 1: Save to database first (MOST IMPORTANT - prevents lead loss)
-      // STEP 1: Save to database first (MOST IMPORTANT - prevents lead loss)
       // We use an RPC function to bypass RLS policies safely
-      const { data: lead, error: dbError } = await supabase
+      const { data: lead, error: dbError } = await (supabase
         .rpc('submit_lead', {
           p_name: formData.name,
           p_email: formData.email,
           p_phone: formData.phone,
           p_location: formData.location,
           p_message: formData.message,
-        });
+          p_country_code: formData.countryCode,
+          p_country_iso2: formData.countryIso2,
+        }) as any);
 
       if (dbError) {
         console.error("Database error:", dbError);
@@ -176,7 +249,7 @@ const Index = () => {
       // If email fails, lead is still saved in database
       try {
         await supabase.functions.invoke('send-brevo-email', {
-          body: { ...formData, leadId: lead.id },
+          body: { ...formData, leadId: lead?.id },
         });
       } catch (emailError) {
         // Email failed but lead is saved - log but don't show error to user
@@ -189,7 +262,7 @@ const Index = () => {
         className: "bg-green-50 border-green-200 text-green-900",
       });
 
-      setFormData({ name: "", email: "", phone: "", location: "", message: "" });
+      setFormData({ name: "", email: "", phone: "", location: "", message: "", countryCode: "+91", countryIso2: "IN" });
     } catch (error: any) {
       console.error("Error sending email:", error);
       toast({
@@ -318,11 +391,11 @@ const Index = () => {
             <Logo className="w-[320px] md:w-[580px] lg:w-[720px] h-auto drop-shadow-2xl" />
           </div>
 
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-8 leading-tight text-balance animate-fade-in tracking-[0.15em] uppercase" style={{ animationDelay: '0.2s' }}>
+          <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-8 leading-tight text-balance animate-fade-in tracking-[0.1em] sm:tracking-[0.15em] uppercase flex flex-wrap items-center justify-center gap-y-2" style={{ animationDelay: '0.2s' }}>
             <span className="text-foreground dark:text-white">Design.</span>
-            <span className="mx-3 text-foreground/20 dark:text-white/20 font-light">·</span>
+            <span className="hidden xs:inline mx-2 md:mx-3 text-foreground/20 dark:text-white/20 font-light">·</span>
             <span className="text-foreground dark:text-white">Execute.</span>
-            <span className="mx-3 text-foreground/20 dark:text-white/20 font-light">·</span>
+            <span className="hidden xs:inline mx-2 md:mx-3 text-foreground/20 dark:text-white/20 font-light">·</span>
             <span style={{ color: '#D4AF37' }} className="italic font-serif normal-case">Elevate.</span>
           </h1>
 
@@ -757,7 +830,34 @@ const Index = () => {
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid md:grid-cols-[120px,1fr,2fr] gap-8">
+                <div>
+                  <label htmlFor="countryCode" className="block text-sm font-bold mb-3 tracking-widest uppercase text-muted-foreground">Code *</label>
+                  <Select
+                    value={`${formData.countryIso2}-${formData.countryCode}`}
+                    onValueChange={(value) => {
+                      const [iso2, code] = value.split('-');
+                      setFormData({ ...formData, countryIso2: iso2, countryCode: code });
+                    }}
+                  >
+                    <SelectTrigger className="h-14 bg-background border-border text-foreground transition-all focus:ring-2 focus:ring-accent">
+                      <SelectValue placeholder="Code" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {COUNTRY_LIST.map((country) => (
+                        <SelectItem key={country.iso2} value={`${country.iso2}-${country.dial_code}`}>
+                          <span className="flex items-center gap-2">
+                            <span className="text-lg leading-none">
+                              {country.iso2 === "UN" ? "🌍" : getFlagEmoji(country.iso2)}
+                            </span>
+                            <span className="font-medium">{country.dial_code}</span>
+                            <span className="text-muted-foreground text-[10px] hidden md:inline">{country.name}</span>
+                          </span>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
                 <div>
                   <label htmlFor="phone" className="block text-sm font-bold mb-3 tracking-widest uppercase text-muted-foreground">Phone *</label>
                   <Input
@@ -767,7 +867,7 @@ const Index = () => {
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     required
                     className="h-14 text-base bg-background border-border text-foreground placeholder:text-muted-foreground/30 transition-all focus:ring-2 focus:ring-accent focus:border-transparent"
-                    placeholder="+91 98765 43210"
+                    placeholder="98765 43210"
                   />
                 </div>
                 <div>

@@ -45,6 +45,8 @@ interface Lead {
     status: string;
     priority: string;
     notes: string | null;
+    country_code?: string;
+    country_iso2?: string;
 }
 
 const statusColors: Record<string, string> = {
@@ -77,6 +79,16 @@ export const LeadsManager = () => {
     const [deleteConfirmName, setDeleteConfirmName] = useState("");
     const { toast } = useToast();
 
+    const getFlagEmoji = (iso2: string) => {
+        if (!iso2) return "";
+        if (iso2 === "UN") return "🌍";
+        const codePoints = iso2
+            .toUpperCase()
+            .split('')
+            .map(char => 127397 + char.charCodeAt(0));
+        return String.fromCodePoint(...codePoints);
+    };
+
     useEffect(() => {
         fetchLeads();
     }, []);
@@ -105,13 +117,13 @@ export const LeadsManager = () => {
 
     const updateLeadStatus = async (leadId: string, newStatus: string) => {
         try {
-            const { error } = await supabase
+            const { error } = await (supabase
                 .from("leads")
                 .update({
                     status: newStatus,
                     last_contacted_at: newStatus !== 'new' ? new Date().toISOString() : null
-                })
-                .eq("id", leadId);
+                } as any)
+                .eq("id", leadId) as any);
 
             if (error) throw error;
 
@@ -135,13 +147,13 @@ export const LeadsManager = () => {
         if (!selectedLead) return;
 
         try {
-            const { error } = await supabase
+            const { error } = await (supabase
                 .from("leads")
                 .update({
                     notes: editedNotes,
                     priority: editedPriority,
-                })
-                .eq("id", selectedLead.id);
+                } as any)
+                .eq("id", selectedLead.id) as any);
 
             if (error) throw error;
 
@@ -167,10 +179,10 @@ export const LeadsManager = () => {
         if (!selectedLead) return;
 
         try {
-            const { error } = await supabase
+            const { error } = await (supabase
                 .from("leads")
                 .delete()
-                .eq("id", selectedLead.id);
+                .eq("id", selectedLead.id) as any);
 
             if (error) throw error;
 
@@ -300,8 +312,9 @@ export const LeadsManager = () => {
                                                     </div>
                                                     <div className="flex items-center gap-2">
                                                         <Phone className="w-3 h-3 text-muted-foreground" />
-                                                        <a href={`tel:${lead.phone}`} className="hover:underline">
-                                                            {lead.phone}
+                                                        <a href={`tel:${lead.country_code || '+91'}${lead.phone}`} className="hover:underline flex items-center gap-1">
+                                                            <span>{getFlagEmoji(lead.country_iso2 || 'IN')}</span>
+                                                            {lead.country_code || "+91"} {lead.phone}
                                                         </a>
                                                     </div>
                                                 </div>
@@ -395,8 +408,9 @@ export const LeadsManager = () => {
                                     </div>
                                     <div>
                                         <div className="text-sm font-medium text-muted-foreground mb-1">Phone</div>
-                                        <a href={`tel:${selectedLead.phone}`} className="hover:underline">
-                                            {selectedLead.phone}
+                                        <a href={`tel:${selectedLead.country_code || '+91'}${selectedLead.phone}`} className="hover:underline flex items-center gap-2">
+                                            <span className="text-xl">{getFlagEmoji(selectedLead.country_iso2 || 'IN')}</span>
+                                            {selectedLead.country_code || "+91"} {selectedLead.phone}
                                         </a>
                                     </div>
                                     <div>
