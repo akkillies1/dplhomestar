@@ -19,6 +19,7 @@ export const Gallery = () => {
     const [images, setImages] = useState<GalleryImage[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(0);
     const [currentIndices, setCurrentIndices] = useState<number[]>([0, 1, 2, 3]);
 
     useEffect(() => {
@@ -94,6 +95,11 @@ export const Gallery = () => {
     // Get the 4 currently displayed images
     const displayedImages = currentIndices.map(idx => images[idx]).filter(Boolean);
 
+    const handleOpenModal = (index: number) => {
+        setSelectedIndex(index);
+        setIsModalOpen(true);
+    };
+
     return (
         <>
             <section id="work" className="py-[100px] md:py-[140px] bg-background reveal">
@@ -112,7 +118,7 @@ export const Gallery = () => {
                             <Card
                                 key={`${image.id}-${currentIndices[index]}`}
                                 className="group relative overflow-hidden cursor-pointer border-border bg-card aspect-square transition-all duration-500 hover:border-accent/40"
-                                onClick={() => setIsModalOpen(true)}
+                                onClick={() => handleOpenModal(currentIndices[index])}
                             >
                                 <img
                                     src={image.thumbnail_url || image.image_url}
@@ -122,9 +128,9 @@ export const Gallery = () => {
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F13]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                                     <div className="text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                         <h3 className="font-bold text-lg mb-1 text-accent uppercase tracking-wider">{image.title}</h3>
-                                        {image.description && (
-                                            <p className="text-sm text-white/70 line-clamp-2 font-light">
-                                                {image.description}
+                                        {image.tags && image.tags.length > 0 && (
+                                            <p className="text-xs text-white/50 font-light italic">
+                                                {image.tags[0]}
                                             </p>
                                         )}
                                     </div>
@@ -146,7 +152,11 @@ export const Gallery = () => {
                 </div>
             </section>
 
-            <GalleryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            <GalleryModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                initialIndex={selectedIndex}
+            />
         </>
     );
 };

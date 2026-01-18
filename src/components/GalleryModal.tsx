@@ -19,14 +19,14 @@ interface GalleryImage {
 interface GalleryModalProps {
     isOpen: boolean;
     onClose: () => void;
+    initialIndex?: number;
 }
 
-export const GalleryModal = ({ isOpen, onClose }: GalleryModalProps) => {
+export const GalleryModal = ({ isOpen, onClose, initialIndex = 0 }: GalleryModalProps) => {
     const [images, setImages] = useState<GalleryImage[]>([]);
     const [filteredImages, setFilteredImages] = useState<GalleryImage[]>([]);
     const [loading, setLoading] = useState(true);
-    const [selectedTag, setSelectedTag] = useState<string | null>(null);
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const [isImageLoading, setIsImageLoading] = useState(true);
 
     useEffect(() => {
@@ -35,13 +35,12 @@ export const GalleryModal = ({ isOpen, onClose }: GalleryModalProps) => {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'unset';
-            setSelectedTag(null);
-            setCurrentIndex(0);
+            setCurrentIndex(initialIndex);
         }
         return () => {
             document.body.style.overflow = 'unset';
         };
-    }, [isOpen]);
+    }, [isOpen, initialIndex]);
 
     const fetchImages = async () => {
         try {
@@ -61,18 +60,6 @@ export const GalleryModal = ({ isOpen, onClose }: GalleryModalProps) => {
             setLoading(false);
         }
     };
-
-    useEffect(() => {
-        if (selectedTag) {
-            const filtered = images.filter(img => img.tags.includes(selectedTag));
-            setFilteredImages(filtered);
-            setCurrentIndex(0);
-        } else {
-            setFilteredImages(images);
-        }
-    }, [selectedTag, images]);
-
-    const allTags = Array.from(new Set(images.flatMap(img => img.tags))).sort();
 
     const handleNext = () => {
         setIsImageLoading(true);
@@ -100,11 +87,6 @@ export const GalleryModal = ({ isOpen, onClose }: GalleryModalProps) => {
 
     const currentImage = filteredImages[currentIndex];
 
-    // Added safety check for currentImage not existing (e.g. if filteredImages is empty)
-    if (!currentImage && !loading && filteredImages.length === 0) {
-        // Return loaded state with "No images" message handled below in render
-    }
-
     const getSocialIcon = (source?: string | null) => {
         switch (source) {
             case 'instagram': return <Instagram className="w-4 h-4" />;
@@ -116,162 +98,160 @@ export const GalleryModal = ({ isOpen, onClose }: GalleryModalProps) => {
     return (
         <DialogPrimitive.Root open={isOpen} onOpenChange={onClose}>
             <DialogPrimitive.Portal>
-                <DialogPrimitive.Overlay className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md animate-in fade-in duration-200" />
-                <DialogPrimitive.Content className="fixed inset-0 z-[101] flex flex-col items-center justify-center outline-none">
+                <DialogPrimitive.Overlay className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-xl animate-in fade-in duration-300" />
+                <DialogPrimitive.Content className="fixed inset-0 z-[101] flex items-center justify-center p-4 md:p-10 outline-none">
                     <DialogPrimitive.Title className="sr-only">
-                        Image Gallery
+                        {currentImage?.title || 'Design Gallery'}
                     </DialogPrimitive.Title>
                     <DialogPrimitive.Description className="sr-only">
-                        Detailed view of the selected gallery image
+                        Detailed view of {currentImage?.title}
                     </DialogPrimitive.Description>
 
-                    {/* Header */}
-                    <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-4 z-10 bg-gradient-to-b from-black/80 to-transparent">
-                        <div className="flex-1">
-                            <div className="flex items-center gap-3">
-                                <h2 className="text-white text-xl md:text-2xl font-outfit font-semibold tracking-tight">
-                                    {currentImage?.title || 'Gallery'}
+                    <div className="bg-[#111] w-full max-w-7xl h-full max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/5 animate-in zoom-in-95 duration-300">
+
+                        {/* 1. Header: Title on Top */}
+                        <div className="p-6 md:px-10 flex items-center justify-between border-b border-white/5 bg-black/40">
+                            <div className="flex items-center gap-4">
+                                <div className="w-1.5 h-6 bg-accent rounded-full" />
+                                <h2 className="text-white text-xl md:text-2xl font-serif font-medium tracking-tight">
+                                    {currentImage?.title || 'Untitled Project'}
                                 </h2>
-                                {currentImage?.social_media_url && (
-                                    <a
-                                        href={currentImage.social_media_url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-medium transition-colors"
-                                    >
-                                        {getSocialIcon(currentImage.social_media_source)}
-                                        <span className="hidden sm:inline">View on {currentImage.social_media_source ? currentImage.social_media_source.charAt(0).toUpperCase() + currentImage.social_media_source.slice(1) : 'Social Media'}</span>
-                                    </a>
-                                )}
                             </div>
-                            {currentImage?.description && (
-                                <p className="text-white/70 text-sm mt-0.5 font-light">{currentImage.description}</p>
-                            )}
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={onClose}
+                                className="text-white/30 hover:text-white hover:bg-white/10 rounded-xl"
+                            >
+                                <X className="w-6 h-6" />
+                            </Button>
                         </div>
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={onClose}
-                            className="text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-colors"
-                        >
-                            <X className="w-6 h-6" />
-                        </Button>
-                    </div>
 
-                    {/* Tags Filter */}
-                    {allTags.length > 0 && (
-                        <div className="absolute top-20 left-0 right-0 px-4 py-2 flex justify-center z-10 pointer-events-none">
-                            <div className="flex gap-2 overflow-x-auto pb-2 max-w-full no-scrollbar pointer-events-auto">
-                                <button
-                                    onClick={() => setSelectedTag(null)}
-                                    className={cn(
-                                        "px-3 py-1 rounded-full text-xs font-medium transition-all whitespace-nowrap",
-                                        selectedTag === null
-                                            ? "bg-white text-black"
-                                            : "bg-white/10 text-white hover:bg-white/20"
+                        {/* 2. Main Content: Split Left (Image) and Right (Description) */}
+                        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+
+                            {/* Left Side: Image with Watermark */}
+                            <div className="relative flex-[2] bg-black/40 flex flex-col items-center justify-center overflow-hidden border-r border-white/5">
+                                <div className="w-full h-full relative flex items-center justify-center p-4 md:p-12">
+                                    {isImageLoading && (
+                                        <div className="absolute inset-0 flex items-center justify-center z-10">
+                                            <div className="w-8 h-8 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />
+                                        </div>
                                     )}
-                                >
-                                    All
-                                </button>
-                                {allTags.map((tag) => (
-                                    <button
-                                        key={tag}
-                                        onClick={() => setSelectedTag(tag)}
-                                        className={cn(
-                                            "px-3 py-1 rounded-full text-xs font-medium transition-all whitespace-nowrap",
-                                            selectedTag === tag
-                                                ? "bg-white text-black"
-                                                : "bg-white/10 text-white hover:bg-white/20"
-                                        )}
-                                    >
-                                        {tag}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Main Image Area */}
-                    <div className="flex-1 w-full relative flex items-center justify-center p-4 md:p-8 overflow-hidden" onClick={onClose}>
-                        <div className="relative max-w-full max-h-full flex items-center justify-center p-0 md:p-12 w-full h-full" onClick={(e) => e.stopPropagation()}>
-                            {loading ? (
-                                <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                            ) : filteredImages.length === 0 ? (
-                                <p className="text-white/50">No images found</p>
-                            ) : (
-                                <>
-                                    <div className="relative w-full h-full flex items-center justify-center">
-                                        {isImageLoading && (
-                                            <div className="absolute inset-0 flex items-center justify-center">
-                                                <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                            </div>
-                                        )}
-                                        {currentImage && (
+                                    {currentImage && (
+                                        <div className="relative max-w-full max-h-full flex items-center justify-center">
                                             <img
+                                                key={currentImage.id}
                                                 src={currentImage.image_url}
-                                                alt={currentImage.alt_text || currentImage.title}
+                                                alt={currentImage.title}
                                                 className={cn(
-                                                    "max-w-full max-h-full object-contain shadow-2xl transition-opacity duration-300",
-                                                    isImageLoading ? "opacity-0" : "opacity-100"
+                                                    "max-w-full max-h-full w-auto h-auto object-contain rounded-sm transition-all duration-700 shadow-2xl",
+                                                    isImageLoading ? "opacity-0 scale-98 blur-sm" : "opacity-100 scale-100 blur-0"
                                                 )}
                                                 onLoad={() => setIsImageLoading(false)}
                                             />
-                                        )}
-                                    </div>
+                                            {/* Watermark - Overlayed on image edge */}
+                                            {!isImageLoading && (
+                                                <div className="absolute bottom-4 right-4 pointer-events-none select-none opacity-40 group-hover/img:opacity-60 transition-opacity flex items-center gap-2 mix-blend-difference">
+                                                    <p className="text-white font-serif text-[10px] md:text-sm tracking-[0.2em] font-light italic">
+                                                        dplhomestar
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
 
                                     {/* Navigation Arrows */}
                                     {filteredImages.length > 1 && (
                                         <>
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); handlePrevious(); }}
-                                                className="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/20 hover:bg-black/40 text-white/80 hover:text-white transition-all backdrop-blur-sm group z-20"
+                                                className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 hover:bg-accent text-white transition-all backdrop-blur-xl border border-white/5 flex items-center justify-center z-30"
                                             >
-                                                <ChevronLeft className="w-8 h-8 group-hover:-translate-x-0.5 transition-transform" />
+                                                <ChevronLeft className="w-6 h-6" />
                                             </button>
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); handleNext(); }}
-                                                className="absolute right-0 md:right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/20 hover:bg-black/40 text-white/80 hover:text-white transition-all backdrop-blur-sm group z-20"
+                                                className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/40 hover:bg-accent text-white transition-all backdrop-blur-xl border border-white/5 flex items-center justify-center z-30"
                                             >
-                                                <ChevronRight className="w-8 h-8 group-hover:translate-x-0.5 transition-transform" />
+                                                <ChevronRight className="w-6 h-6" />
                                             </button>
                                         </>
                                     )}
-                                </>
-                            )}
-                        </div>
-                    </div>
+                                </div>
 
-                    {/* Footer / Thumbnails */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent z-10 pointer-events-none">
-                        {filteredImages.length > 1 && (
-                            <div className="flex gap-2 justify-center overflow-x-auto pb-2 no-scrollbar pointer-events-auto">
-                                {filteredImages.map((image, index) => (
-                                    <button
-                                        key={image.id}
-                                        onClick={() => {
-                                            if (index !== currentIndex) {
-                                                setIsImageLoading(true);
-                                                setCurrentIndex(index);
-                                            }
-                                        }}
-                                        className={cn(
-                                            "flex-shrink-0 w-12 h-12 md:w-16 md:h-16 rounded-md overflow-hidden border-2 transition-all relative",
-                                            index === currentIndex
-                                                ? "border-white opacity-100"
-                                                : "border-transparent opacity-40 hover:opacity-70"
-                                        )}
-                                    >
-                                        <img
-                                            src={image.image_url}
-                                            alt={image.alt_text || image.title}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </button>
-                                ))}
+                                {/* Thumbnail strip */}
+                                <div className="h-20 w-full px-6 mb-4 hidden md:block">
+                                    <div className="flex gap-2 justify-center overflow-x-auto no-scrollbar py-2">
+                                        {filteredImages.map((image, index) => (
+                                            <button
+                                                key={image.id}
+                                                onClick={() => {
+                                                    if (index !== currentIndex) {
+                                                        setIsImageLoading(true);
+                                                        setCurrentIndex(index);
+                                                    }
+                                                }}
+                                                className={cn(
+                                                    "flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden border-2 transition-all duration-300",
+                                                    index === currentIndex ? "border-accent scale-105" : "border-white/5 opacity-30 hover:opacity-100"
+                                                )}
+                                            >
+                                                <img src={image.image_url} className="w-full h-full object-cover" />
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
-                        )}
-                        <div className="text-center text-white/40 text-xs mt-2">
-                            {filteredImages.length > 0 ? `${currentIndex + 1} of ${filteredImages.length}` : ''}
+
+                            {/* Right Side: Description */}
+                            <div className="flex-1 bg-black/40 border-l border-white/5 flex flex-col p-8 md:p-10 lg:max-w-sm">
+                                <div className="flex-1 overflow-y-auto no-scrollbar">
+                                    <div className="mb-8">
+                                        <span className="text-accent text-[10px] uppercase tracking-[0.4em] font-bold block mb-4">Description</span>
+                                        {currentImage?.description ? (
+                                            <p className="text-white/70 text-sm md:text-base leading-relaxed font-light italic">
+                                                "{currentImage.description}"
+                                            </p>
+                                        ) : (
+                                            <p className="text-white/30 text-xs italic">No project description available.</p>
+                                        )}
+                                    </div>
+
+                                    {currentImage?.social_media_url && (
+                                        <div className="mb-10">
+                                            <a
+                                                href={currentImage.social_media_url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-2 text-white/50 hover:text-accent text-xs font-bold uppercase tracking-widest transition-colors group"
+                                            >
+                                                {getSocialIcon(currentImage.social_media_source)}
+                                                <span>Visit on {currentImage.social_media_source || 'Social'}</span>
+                                                <ExternalLink className="w-3 h-3 ml-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                            </a>
+                                        </div>
+                                    )}
+
+                                    <div className="space-y-4">
+                                        <span className="text-white/20 text-[10px] uppercase tracking-widest font-bold block">Tags</span>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {currentImage?.tags.map(tag => (
+                                                <span key={tag} className="text-[9px] uppercase tracking-wider px-2 py-1 bg-white/5 border border-white/5 rounded-md text-white/40">
+                                                    #{tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 3. Footer: Property Ownership Declaration */}
+                        <div className="p-4 bg-black/60 border-t border-white/5 flex items-center justify-center">
+                            <p className="text-[10px] md:text-xs text-white/20 tracking-wider uppercase font-medium text-center">
+                                © {new Date().getFullYear()} dplHomestar. All designs and photographic property are trademarks and intellectual assets of <span className="text-white/40">DCODE Private Limited</span>.
+                            </p>
                         </div>
                     </div>
                 </DialogPrimitive.Content>
