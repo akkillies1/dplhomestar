@@ -25,6 +25,7 @@ export interface Database {
           created_at: string
           updated_at: string
           alt_text: string | null
+          mood: string | null
         }
         Insert: {
           id?: string
@@ -41,6 +42,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
           alt_text?: string | null
+          mood?: string | null
         }
         Update: {
           id?: string
@@ -57,6 +59,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
           alt_text?: string | null
+          mood?: string | null
         }
       }
       testimonials: {

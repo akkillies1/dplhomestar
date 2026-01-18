@@ -13,6 +13,7 @@ interface GalleryImage {
     thumbnail_url: string | null;
     tags: string[];
     alt_text?: string | null;
+    mood?: string | null;
 }
 
 export const Gallery = () => {
@@ -109,7 +110,7 @@ export const Gallery = () => {
                             Our Work
                         </h2>
                         <p className="text-xl text-foreground/50 max-w-2xl mx-auto font-light italic">
-                            A curated selection of our interior design projects
+                            Curated inspirations from our boutique design atelier
                         </p>
                     </div>
 
@@ -144,9 +145,9 @@ export const Gallery = () => {
                             size="lg"
                             variant="outline"
                             onClick={() => setIsModalOpen(true)}
-                            className="min-w-[200px] md:min-w-[240px] h-12 md:h-14 border-accent text-accent hover:bg-accent hover:text-accent-foreground font-bold rounded-full transition-all duration-500 uppercase tracking-widest text-[10px] md:text-xs"
+                            className="min-w-[200px] md:min-w-[280px] h-12 md:h-14 border-accent text-accent hover:bg-accent hover:text-accent-foreground font-bold rounded-full transition-all duration-500 uppercase tracking-widest text-[10px] md:text-xs"
                         >
-                            Explore Full Gallery
+                            The Design Mood Board
                         </Button>
                     </div>
                 </div>

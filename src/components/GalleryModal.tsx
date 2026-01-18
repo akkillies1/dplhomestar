@@ -14,6 +14,7 @@ interface GalleryImage {
     social_media_url?: string | null;
     social_media_source?: string | null;
     alt_text?: string | null;
+    mood?: string | null;
 }
 
 interface GalleryModalProps {
@@ -109,7 +110,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0 }: GalleryModal
                 <DialogPrimitive.Overlay className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl animate-in fade-in duration-300" />
                 <DialogPrimitive.Content className="fixed inset-0 z-[101] flex items-center justify-center p-2 md:p-10 outline-none">
                     <DialogPrimitive.Title className="sr-only">
-                        {currentImage?.title || 'Design Gallery'}
+                        {currentImage?.title ? `${currentImage.title} — The Design Mood Board` : 'The Design Mood Board'}
                     </DialogPrimitive.Title>
                     <DialogPrimitive.Description className="sr-only">
                         Detailed view of {currentImage?.title}
@@ -122,7 +123,9 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0 }: GalleryModal
                             <div className="flex items-center gap-3">
                                 <div className="w-1 h-5 bg-accent rounded-full" />
                                 <h2 className="text-white text-lg md:text-2xl font-serif font-medium tracking-tight truncate max-w-[200px] md:max-w-none">
-                                    {currentImage?.title || 'Loading...'}
+                                    The Design Mood Board
+                                    <span className="text-white/30 mx-3 font-light">—</span>
+                                    <span className="text-accent italic font-light">{currentImage?.title || 'Loading...'}</span>
                                 </h2>
                             </div>
                             <Button
@@ -237,14 +240,24 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0 }: GalleryModal
                                     </div>
                                 ) : (
                                     <div className="flex-1 overflow-y-auto no-scrollbar">
-                                        <div className="mb-6">
-                                            <span className="text-accent text-[9px] uppercase tracking-[0.3em] font-bold block mb-3">Project Overview</span>
+                                        <div className="mb-6 pb-6 border-b border-white/5">
+                                            <span className="text-white/30 text-[9px] uppercase tracking-[0.3em] font-bold block mb-3">Project Aura / Mood</span>
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                                                <p className="text-white text-lg md:text-xl font-serif italic tracking-wide">
+                                                    {currentImage?.mood || 'Signature Luxury'}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="mb-6 relative">
+                                            <span className="text-accent text-[9px] uppercase tracking-[0.3em] font-bold block mb-3">Designer's Note</span>
                                             {currentImage?.description ? (
-                                                <p className="text-white/70 text-sm md:text-base leading-relaxed font-light italic">
+                                                <p className="text-white/80 text-lg md:text-xl leading-relaxed font-serif italic">
                                                     "{currentImage.description}"
                                                 </p>
                                             ) : (
-                                                <p className="text-white/20 text-xs italic">A detailed look at our featured architectural design.</p>
+                                                <p className="text-white/20 text-xs font-serif italic">A curated reflection of our design philosophy for this space.</p>
                                             )}
                                         </div>
 
