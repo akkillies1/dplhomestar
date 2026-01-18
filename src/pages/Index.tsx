@@ -840,9 +840,9 @@ const Index = () => {
             <div>
               <h4 className="text-sm font-bold mb-6 tracking-widest uppercase text-foreground">Contact</h4>
               <div className="space-y-4">
-                <a href="mailto:shinu.thej1039@gmail.com" className="flex items-center gap-3 text-foreground/60 hover:text-accent transition-colors group">
+                <a href="mailto:info@dplhomestar.com" className="flex items-center gap-3 text-foreground/60 hover:text-accent transition-colors group">
                   <Mail className="w-5 h-5 group-hover:scale-110 transition-transform text-accent" />
-                  <span>shinu.thej1039@gmail.com</span>
+                  <span>info@dplhomestar.com</span>
                 </a>
                 <a href="tel:+919633860898" className="flex items-center gap-3 text-foreground/60 hover:text-accent transition-colors group">
                   <Phone className="w-5 h-5 group-hover:scale-110 transition-transform text-accent" />
