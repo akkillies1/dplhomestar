@@ -156,7 +156,10 @@ const BlogPost = () => {
             {/* Footer */}
             <footer className="py-12 border-t border-border bg-background">
                 <div className="container-custom text-center text-foreground/30 font-light text-sm">
-                    <p>&copy; {new Date().getFullYear()} dplHomestar. All rights reserved.</p>
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+                        <img src="/dcode-logo.jpg" alt="DCODE Logo" className="w-8 h-8 rounded-sm opacity-60" />
+                        <p>&copy; {new Date().getFullYear()} dplHomestar. All rights reserved.</p>
+                    </div>
                 </div>
             </footer>
         </div>

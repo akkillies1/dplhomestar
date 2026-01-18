@@ -856,7 +856,10 @@ const Index = () => {
               <div className="flex items-start gap-3 text-foreground/60">
                 <MapPin className="w-5 h-5 mt-1 flex-shrink-0 text-accent" />
                 <span className="text-sm leading-relaxed">
-                  <strong className="block text-foreground mb-1">DCODE PRIVATE LTD</strong>
+                  <div className="flex flex-col gap-3">
+                    <img src="/dcode-logo.jpg" alt="DCODE Logo" className="w-16 h-16 rounded-md shadow-sm opacity-80" />
+                    <strong className="block text-foreground mb-1 underline decoration-accent/30 decoration-2 underline-offset-4">DCODE PRIVATE LTD</strong>
+                  </div>
                   24/1701, Door No 14/22AB4, Suite No 883,<br />
                   2nd floor, KC Arcade, Near TV center,<br />
                   Cochin Special Economin Zone,<br />
@@ -869,7 +872,10 @@ const Index = () => {
           <div className="pt-5 border-t border-border text-center">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <div className="text-foreground/30 font-light text-sm">
-                <p>&copy; {new Date().getFullYear()} <span className="text-accent font-medium">dplHomestar</span> — A brand of <span className="text-foreground/50 font-medium">DCODE Private Limited</span>. All rights reserved.</p>
+                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-2">
+                  <img src="/dcode-logo.jpg" alt="DCODE Logo" className="w-8 h-8 rounded-sm opacity-60" />
+                  <p>&copy; {new Date().getFullYear()} <span className="text-accent font-medium">dplHomestar</span> — A brand of <span className="text-foreground/50 font-medium">DCODE Private Limited</span>. All rights reserved.</p>
+                </div>
               </div>
               <a
                 href="/admin/login"

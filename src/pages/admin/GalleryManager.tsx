@@ -17,6 +17,7 @@ interface GalleryImage {
     is_featured: boolean;
     is_published: boolean;
     display_order: number;
+    alt_text: string | null;
 }
 
 export const GalleryManager = () => {
@@ -53,7 +54,7 @@ export const GalleryManager = () => {
         try {
             const { error } = await supabase
                 .from("gallery_images")
-                .update({ is_published: !currentStatus })
+                .update({ is_published: !currentStatus } as any)
                 .eq("id", id);
 
             if (error) throw error;
@@ -77,7 +78,7 @@ export const GalleryManager = () => {
         try {
             const { error } = await supabase
                 .from("gallery_images")
-                .update({ is_featured: !currentStatus })
+                .update({ is_featured: !currentStatus } as any)
                 .eq("id", id);
 
             if (error) throw error;

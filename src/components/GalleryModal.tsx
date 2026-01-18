@@ -13,6 +13,7 @@ interface GalleryImage {
     tags: string[];
     social_media_url?: string | null;
     social_media_source?: string | null;
+    alt_text?: string | null;
 }
 
 interface GalleryModalProps {
@@ -208,7 +209,7 @@ export const GalleryModal = ({ isOpen, onClose }: GalleryModalProps) => {
                                         {currentImage && (
                                             <img
                                                 src={currentImage.image_url}
-                                                alt={currentImage.title}
+                                                alt={currentImage.alt_text || currentImage.title}
                                                 className={cn(
                                                     "max-w-full max-h-full object-contain shadow-2xl transition-opacity duration-300",
                                                     isImageLoading ? "opacity-0" : "opacity-100"
@@ -262,7 +263,7 @@ export const GalleryModal = ({ isOpen, onClose }: GalleryModalProps) => {
                                     >
                                         <img
                                             src={image.image_url}
-                                            alt={image.title}
+                                            alt={image.alt_text || image.title}
                                             className="w-full h-full object-cover"
                                         />
                                     </button>

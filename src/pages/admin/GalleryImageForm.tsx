@@ -29,6 +29,7 @@ export const GalleryImageForm = () => {
         display_order: 0,
         social_media_url: "",
         social_media_source: "",
+        alt_text: "",
     });
 
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -60,6 +61,7 @@ export const GalleryImageForm = () => {
                     display_order: data.display_order || 0,
                     social_media_url: data.social_media_url || "",
                     social_media_source: data.social_media_source || "",
+                    alt_text: data.alt_text || "",
                 });
                 setImagePreview(data.image_url);
             }
@@ -98,7 +100,7 @@ export const GalleryImageForm = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!imageFile && !id) {
+        if (!imagePreview) {
             toast({
                 title: "Error",
                 description: "Please select an image",
@@ -146,6 +148,7 @@ export const GalleryImageForm = () => {
                 display_order: formData.display_order || 0,
                 social_media_url: formData.social_media_url || null,
                 social_media_source: formData.social_media_source || null,
+                alt_text: formData.alt_text || formData.title,
             };
 
             let error;
@@ -223,7 +226,7 @@ export const GalleryImageForm = () => {
                                             className="absolute top-2 right-2"
                                             onClick={() => {
                                                 setImageFile(null);
-                                                if (!id) setImagePreview(null); // Keep preview if editing and reverting to original
+                                                setImagePreview(null);
                                             }}
                                         >
                                             <X className="w-4 h-4" />
@@ -283,6 +286,20 @@ export const GalleryImageForm = () => {
                                 onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                                 placeholder="e.g., Residential, Kitchen, Modern"
                             />
+                        </div>
+
+                        {/* Alt Text */}
+                        <div className="space-y-2">
+                            <Label htmlFor="alt_text">SEO Alt Text</Label>
+                            <Input
+                                id="alt_text"
+                                value={formData.alt_text}
+                                onChange={(e) => setFormData({ ...formData, alt_text: e.target.value })}
+                                placeholder="Descriptive text for search engines..."
+                            />
+                            <p className="text-xs text-muted-foreground">
+                                Describes what is in the image. Helps with Google Image search ranking.
+                            </p>
                         </div>
 
                         {/* Social Media Integration */}

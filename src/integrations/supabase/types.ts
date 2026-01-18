@@ -24,6 +24,7 @@ export interface Database {
           is_published: boolean
           created_at: string
           updated_at: string
+          alt_text: string | null
         }
         Insert: {
           id?: string
@@ -39,6 +40,7 @@ export interface Database {
           is_published?: boolean
           created_at?: string
           updated_at?: string
+          alt_text?: string | null
         }
         Update: {
           id?: string
@@ -54,6 +56,7 @@ export interface Database {
           is_published?: boolean
           created_at?: string
           updated_at?: string
+          alt_text?: string | null
         }
       }
       testimonials: {
@@ -142,6 +145,53 @@ export interface Database {
           published_at?: string | null
           created_at?: string
           updated_at?: string
+        }
+      }
+      leads: {
+        Row: {
+          id: string
+          created_at: string
+          name: string
+          email: string
+          phone: string
+          location: string
+          message: string
+          status: string | null
+          priority: string | null
+          source: string | null
+          notes: string | null
+          last_contacted_at: string | null
+          next_follow_up_date: string | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          name: string
+          email: string
+          phone: string
+          location: string
+          message: string
+          status?: string | null
+          priority?: string | null
+          source?: string | null
+          notes?: string | null
+          last_contacted_at?: string | null
+          next_follow_up_date?: string | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          name?: string
+          email?: string
+          phone?: string
+          location?: string
+          message?: string
+          status?: string | null
+          priority?: string | null
+          source?: string | null
+          notes?: string | null
+          last_contacted_at?: string | null
+          next_follow_up_date?: string | null
         }
       }
     }
