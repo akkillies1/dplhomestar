@@ -136,15 +136,19 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                                     </Button>
                                 )}
                                 <div className="w-1 h-5 bg-accent rounded-full" />
-                                <h2 className="text-white text-base md:text-2xl font-serif font-medium tracking-tight flex items-center flex-wrap gap-x-2">
-                                    <span className="shrink-0">The Design Mood Board</span>
+                                <div className="flex flex-col md:flex-row md:items-center">
+                                    <h2 className="text-white/40 text-[9px] md:text-2xl md:text-white font-serif font-medium tracking-[0.2em] md:tracking-tight uppercase md:normal-case mt-1 md:mt-0">
+                                        The Design Mood Board
+                                    </h2>
                                     {viewMode === 'detail' && (
-                                        <>
-                                            <span className="text-white/30 font-light hidden xs:inline">—</span>
-                                            <span className="text-accent italic font-light truncate max-w-[120px] xs:max-w-none">{currentImage?.title || 'Loading...'}</span>
-                                        </>
+                                        <div className="flex items-center">
+                                            <span className="text-white/30 font-light mx-2 hidden md:inline">—</span>
+                                            <span className="text-accent italic font-light text-sm md:text-2xl leading-none">
+                                                {currentImage?.title || 'Loading...'}
+                                            </span>
+                                        </div>
                                     )}
-                                </h2>
+                                </div>
                             </div>
                             <Button
                                 variant="ghost"
